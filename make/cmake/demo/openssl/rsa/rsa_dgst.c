@@ -5,6 +5,9 @@
 
 #include "file.h"
 
+#include <inttypes.h>
+#include <sys/time.h>
+
 RSA* get_private_key(char* path)
 {
     FILE    *fp = NULL; 
@@ -83,9 +86,18 @@ int main(void)
     memset(sha_buf, 0, sizeof(sha_buf));
     memset(signature, 0, sizeof(signature));
 
-    SHA1(file_buf, file_len, sha_buf);
+    struct timeval start;
+    struct timeval end;
+    gettimeofday(&start,NULL);
 
+    SHA1(file_buf, file_len, sha_buf);
     ret = RSA_sign(NID_sha1, (unsigned char *)sha_buf, MD_SHA1_LEN, (unsigned char*)signature, &sig_len, rsa_content);
+
+    gettimeofday(&end,NULL);
+    uint64_t time_us = (end.tv_sec-start.tv_sec)*1000*1000 + (end.tv_usec-start.tv_usec);
+    printf("uint is %"PRIu64" us\n", time_us);
+
+
     if(ret != 1 ) {
             printf("rsa sign error\n");
             RSA_free(rsa_content);
