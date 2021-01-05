@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 2.8)
+project (cmake-makefile-wrapper C CXX)
+add_definitions (
+    -D_GNU_SOURCE
+)
+
+add_executable(cmake-wrapper-test  ${PROJECT_SOURCE_DIR}/src/test.c)
+
+set(CMAKE_CROSSCOMPILING TRUE)
+set(TOOLSCHAIN_PATH "/opt/cross-toolchain/")
+set(TOOLCHAIN_HOST "${TOOLSCHAIN_PATH}bin/arm-gnu-linux")
+
+message(STATUS "Using sysroot path: ${SYSROOT_PATH}")
+set(TOOLCHAIN_CC "${TOOLCHAIN_HOST}-gcc")
+set(TOOLCHAIN_CXX "${TOOLCHAIN_HOST}-g++")
+
+set(CMAKE_SYSTEM_NAME "Linux")
+set(CMAKE_C_COMPILER ${TOOLCHAIN_CC})
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN_CXX})
+set(CMAKE_FIND_ROOT_PATH "${SYSROOT_PATH}" "${CMAKE_PREFIX_PATH}" "${TOOLSCHAIN_PATH}")
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
