@@ -1,0 +1,9 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\*\shell\notepad]
+
+@="Edit with notepad "
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\*\shell\notepad\command]
+
+@="notepad %1"
