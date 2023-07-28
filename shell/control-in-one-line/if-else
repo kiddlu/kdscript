@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#if #else
+netusb=$(cat /etc/cam_app.ini  | grep netusb | awk '{print $3}'); if [ $netusb == 0 ]; then echo "No netusb"; else echo "Has netusb";fi
